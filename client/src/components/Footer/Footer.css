@@ -1,0 +1,14 @@
+.footer {
+    width: 100%;
+    background-color: #1a1a1a;
+    color: white;
+    position: fixed;
+    bottom: 0px;
+    border: 1px solid black;
+}
+
+.footer h1 {
+    padding: 10px;
+    font-size: 14px;
+    text-align: center;
+}

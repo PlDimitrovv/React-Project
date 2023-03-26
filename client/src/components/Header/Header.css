@@ -12,6 +12,11 @@
 
 .nav-title{
     color: #f89e2f;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.nav-title span{
+    color: #fc6d56;
 }
 
 .nav-links {
@@ -29,6 +34,6 @@
 }
 
 .link:hover {
-    padding-bottom: 20px;
-    border-bottom: 3px solid #f89e2f;
+    padding-bottom: 24px;
+    border-bottom: 3px solid #fc6d56;
 }

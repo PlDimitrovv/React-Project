@@ -1,0 +1,19 @@
+.wrapper {
+    margin-top: 80px;
+    display: flex;
+    gap: 40px;
+    text-align: center;
+    justify-content: center;
+    margin-bottom: 160px;
+}
+
+.info {
+    font-size: 30px;
+    line-height: 10px;
+    text-align: center;
+    margin-top: 120px;
+}
+
+.banner-subtitle {
+    font-size: 20px;
+}

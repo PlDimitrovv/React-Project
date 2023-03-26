@@ -1,59 +1,45 @@
 import "./Home.css"
 import { Link } from 'react-router-dom'
+import { OneRecipe } from "../OneRecipe/OneRecipe"
+import { useEffect, useState } from "react"
+
+import * as recipeService from '../../services/recipeService'
 
 export const Home = () => {
+    const [recipes, setRecipe] = useState([]);
+    useEffect(() => {
+        recipeService.getAll()
+            .then(recipes => setRecipe(recipes))
+    }, [])
+
+    const hasRecipe = recipes.length > 0
+
+
+
+
+
+
     return (
         <div>
+            <div className="img-home"/>
+            <div className="home-wrapper">
+            <p className="home-text">Explore</p>
+            <p className="home-text">Make</p>
+            <p className="home-text">Enjoy!</p>
+            </div>
             <article className="info">
-                <div className=""> </div>
-                <h1 className="banner-title">Explore delicious </h1>
+                <h1 className="banner-title">See some of our</h1>
                 <h3 className="banner-subtitle">meals for you!</h3>
-                <div className="redirect-home">
-                    <Link className='catalog-link' to="/catalog">Browse Recipes</Link>
-                </div>
             </article>
 
             <div className="wrapper">
-                <article className="article">
-                    <img className="article-img" src="" alt="" />
-                    <h1 className="article-title">Title</h1>
-                    <p className="article-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore
-                        et dolore magna.</p>
-                    <div className="info-wrapper">
-                        <p className="article-prep">Prep Time:</p>
-                        <p className="article-prep">Servings:</p>
-                    </div>
-                    <button className="article-btn">Details</button>
-                </article>
-
-                <article className="article">
-                    <img className="article-img" src="" alt="" />
-                    <h1 className="article-title">Title</h1>
-                    <p className="article-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore
-                        et dolore magna.</p>
-                    <div className="info-wrapper">
-                        <p className="article-prep">Prep Time:</p>
-                        <p className="article-prep">Servings:</p>
-                    </div>
-                    <button className="article-btn">Details</button>
-                </article>
-
-                <article className="article">
-                    <img className="article-img" src="" alt="" />
-                    <h1 className="article-title">Title</h1>
-                    <p className="article-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore
-                        et dolore magna.</p>
-                    <div className="info-wrapper">
-                        <p className="article-prep">Prep Time:</p>
-                        <p className="article-prep">Servings:</p>
-                    </div>
-                    <button className="article-btn">Details</button>
-                </article>
-
+                {recipes.slice(-3).map(recipe =>
+                    <OneRecipe recipe={recipe} key={recipe._id} />)}
             </div>
+
+            {!hasRecipe && (
+                <h2>Currently there are no submitted Recipes</h2>
+            )}
         </div>
     )
 }

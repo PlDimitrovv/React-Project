@@ -13,7 +13,7 @@ export const getAll = async () => {
 
 
 export const getOneRecipe = async (recipeId) => {
-    const response = await fetch(`${baseUrl}/recipes/${recipeId}`);
+    const response = await fetch(`${baseUrl}/${recipeId}`);
     const result = await response.json();
     return result
 };

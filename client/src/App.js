@@ -10,6 +10,7 @@ import { Login } from './components/Login/Login'
 import { AuthContext } from './context/AuthContext';
 import { useLocalStorage } from './hooks/authLocalStorage';
 import { authLogout } from './services/authService';
+import { RecipeDetails } from './components/RecipeDetails/RecipeDetails';
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
           <Route path='/create' element={<AddRecipe />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
+          <Route path='/catalog/details/:recipeId' element={<RecipeDetails />} />
         </Routes>
       </AuthContext.Provider>
       <Footer />

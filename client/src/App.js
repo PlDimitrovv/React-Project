@@ -1,4 +1,4 @@
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import { Footer } from './components/Footer/Footer';
 import { Header } from './components/Header/Header';
@@ -9,8 +9,9 @@ import { Register } from './components/Register/Register'
 import { Login } from './components/Login/Login'
 import { AuthContext } from './context/AuthContext';
 import { useLocalStorage } from './hooks/authLocalStorage';
-import { authLogout } from './services/authService';
 import { RecipeDetails } from './components/RecipeDetails/RecipeDetails';
+import { EditRecipe } from './components/EditRecipe/EditRecipe';
+import { UserProfile } from './components/UserProfile/UserProfile';
 
 
 function App() {
@@ -21,18 +22,10 @@ function App() {
     setUser({ ...data })
   }
 
-  const navigate = useNavigate()
-
-  const userLogout = async () => {
-    await authLogout()
-    setUser({})
-    navigate('/')
-  }
-
 
   return (
     <div>
-      <AuthContext.Provider value={{ setUserSession, user, userLogout }}>
+      <AuthContext.Provider value={{ setUserSession, user }}>
         <Header />
         <Routes>
           <Route path='/' element={<Home />} />
@@ -40,7 +33,9 @@ function App() {
           <Route path='/create' element={<AddRecipe />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
+          <Route path='/profile' element={<UserProfile />} />
           <Route path='/catalog/details/:recipeId' element={<RecipeDetails />} />
+          <Route path='/catalog/:recipeId/edit' element={<EditRecipe />} />
         </Routes>
       </AuthContext.Provider>
       <Footer />

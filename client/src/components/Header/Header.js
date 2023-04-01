@@ -1,5 +1,5 @@
 import './Header.css';
-import { Link } from 'react-router-dom'
+import { Link,} from 'react-router-dom'
 import { AuthContext } from '../../context/AuthContext';
 import { useContext } from 'react';
 
@@ -7,6 +7,15 @@ export const Header = () => {
 
     const { user } = useContext(AuthContext)
     const isAuthenticated = user?._id ? true : false
+
+    const { setUserSession } = useContext(AuthContext)
+
+
+
+    const userLogout = () => {
+        setUserSession({})
+        localStorage.clear()
+    }
 
     return (
         <div>
@@ -31,9 +40,9 @@ export const Header = () => {
                                     <li className="item">
                                         <Link className='link' to="/profile">Profile</Link>
                                     </li>
-                                    
+
                                     <li className="item">
-                                        <Link className='link' to="/logout">Logout</Link>
+                                        <Link className='link' to="/" onClick={userLogout}>Logout</Link>
                                     </li>
                                 </>
 

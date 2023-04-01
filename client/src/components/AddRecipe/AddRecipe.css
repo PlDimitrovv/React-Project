@@ -81,3 +81,13 @@
     font-family: Helvetica, sans-serif;
 }
 
+.error-message {
+    color: #fc6d56;
+    margin-left: 10px;
+    margin-bottom: 2px;
+}
+
+.add-recipe-error-wrapper{
+    display: flex;
+    gap: 104px;
+}

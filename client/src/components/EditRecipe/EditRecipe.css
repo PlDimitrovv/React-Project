@@ -1,6 +1,7 @@
-.login-wrapper {
-    margin: 120px auto 120px auto;
-    width: 400px;
+.create-wrapper {
+    margin: 60px auto;
+    margin-bottom: 120px;
+    width: 600px;
     display: flex;
     flex-direction: column;
     padding: 30px;
@@ -9,7 +10,7 @@
     box-shadow: 7px 7px 10px 2px rgba(0, 0, 0, 0.466);
 }
 
-.login-title {
+.create-title {
     font-size: 36px;
     color: #73726f;
     text-transform: uppercase;
@@ -25,8 +26,7 @@
 }
 
 
-.password,
-.email {
+.name, .img, .desc, .instructions, .servings, .prepTime, .ingredients{
     border: 1px solid #bfbfbf;
     border-radius: 30px;
     height: 36px;
@@ -42,7 +42,7 @@
     margin-left: 10px;
 }
 
-.login-sbt {
+.create-sbt {
     background-color: #f89e2f;
     width: 50%;
     padding: 13px;
@@ -50,38 +50,34 @@
     border: none;
     border-radius: 30px;
     margin-top: 60px;
-    margin-left: 100px;
+    margin-left: 160px;
     text-transform: uppercase;
     font-size: 16px;
 }
 
-.login-sbt:hover {
-    background-color: #e67e00;
+.servings-prepTime-wrapper{
+    margin-top: 30px;
+    gap: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.redirect {
-    text-align: center;
-    color: #73726f;
+.desc{
+    resize: none;
+    height: 30px;
+    padding-top: 15px;
+    font-family: Helvetica, sans-serif;
+    
 }
 
-.register-link {
-    text-decoration: none;
-    color: #f89e2f;
+
+
+
+.instructions{
+    resize: none;
+    height: 30px;
+    padding-top: 15px;
+    font-family: Helvetica, sans-serif;
 }
 
-.register-link:hover {
-    color: #e67e00;
-}
-
-.error {
-    font-size: 20px;
-    color: #fc6d56;
-    text-align: center;
-    font-weight: 400;
-}
-
-.error-message {
-    color: #fc6d56;
-    margin-left: 10px;
-    margin-bottom: 2px;
-}

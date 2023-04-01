@@ -12,7 +12,12 @@ export const Login = () => {
         email: '',
         password: ""
     })
-    const [errors, setErrors] = useState('')
+
+    const [errors, setErrors] = useState({
+        email: false,
+        password: false,
+        errorFromServer: false,
+    })
 
     const { setUserSession } = useContext(AuthContext)
     const navigate = useNavigate()
@@ -21,8 +26,8 @@ export const Login = () => {
         e.preventDefault()
         const response = await authLogin(loginFormData);
 
-        if(response.message){
-            return setErrors(response.message)
+        if (response?.message) {
+            return setErrors({ ...errors, errorFromServer: response.message })
         }
 
         if (response?._id) {
@@ -36,19 +41,31 @@ export const Login = () => {
             password: ""
         })
 
-        //Error Handling
+    }
+
+    const onErrorHandler = (e) => {
+        if (e.target.name === 'email') {
+            const mailRegex = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
+            if (!e.target.value.match(mailRegex)) {
+                setErrors(state => ({ ...state, [e.target.name]: true }))
+            }
+        } else if (e.target.name === 'password' && (e.target.value.length < 3 || e.target.value.length > 15)) {
+            setErrors(state => ({ ...state, [e.target.name]: true }))
+
+        }
     }
 
 
     const loginData = (e) => {
         setLoginData({ ...loginFormData, [e.target.name]: e.target.value })
+        setErrors(state => ({ ...state, [e.target.name]: false }));
     }
 
     return (
         <div className="login-wrapper">
             <h1 className="login-title">Login</h1>
             {errors && (
-                <h2 className="error">{errors}</h2>
+                <h2 className="error">{errors.errorFromServer}</h2>
             )}
             <form className="form" onSubmit={loginHandler}>
                 <label htmlFor="" className="form-label">E-mail</label>
@@ -58,7 +75,14 @@ export const Login = () => {
                     name="email"
                     placeholder="E-mail"
                     value={loginFormData.email}
-                    onChange={loginData} />
+                    onChange={loginData}
+                    onBlur={onErrorHandler} />
+
+                {errors.email && (
+                    <p className='error-message'>
+                        Invalid E-mail
+                    </p>
+                )}
 
                 <label htmlFor="" className="form-label">Password</label>
                 <input
@@ -67,7 +91,14 @@ export const Login = () => {
                     name="password"
                     placeholder="Enter your password"
                     value={loginFormData.password}
-                    onChange={loginData} />
+                    onChange={loginData}
+                    onBlur={onErrorHandler} />
+
+                {errors.password && (
+                    <p className='error-message'>
+                        Password must be between 3 and 15 characters!
+                    </p>
+                )}
 
                 <input type="submit" className="login-sbt" value="Login" />
             </form>

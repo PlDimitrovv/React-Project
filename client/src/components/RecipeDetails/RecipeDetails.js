@@ -1,8 +1,9 @@
 import "./RecipeDetails.css"
-import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import * as recipeService from '../../services/recipeService'
+import { AuthContext } from "../../context/AuthContext";
 
 export const RecipeDetails = () => {
     const { recipeId } = useParams()
@@ -10,12 +11,25 @@ export const RecipeDetails = () => {
     const [recipe, setRecipe] = useState({})
 
     useEffect(() => {
+       
         recipeService.getOneRecipe(recipeId)
             .then(result => {
                 setRecipe(result)
             })
     }, [recipeId])
 
+    const navigate = useNavigate()
+
+    const deleteHandler = async (e) => {
+        const result = await recipeService.deleteRecipe(recipe._id, user.accessToken);
+        navigate('/catalog')
+        return result
+    }
+
+
+    const { user } = useContext(AuthContext)
+    const isOwner = user?._id === recipe?._ownerId
+  
     return (
         <section className="details-wrapper">
             <img className="details-img" src={recipe.img} alt="" />
@@ -26,17 +40,18 @@ export const RecipeDetails = () => {
             <h5 className="details-text-title">Ingredients:</h5>
             <p className="details-text">{recipe.ingredients}</p>
             <h5 className="details-text-title">How to prepare:</h5>
-            <p className="details-text">{recipe.desc}</p>
+            <p className="details-text">{recipe.instructions}</p>
             <div className="prep-servings-wrapper">
                 <p className="prep-servings">Prep Time: {recipe.prepTime} minutes.</p>
                 <p className="prep-servings">Servings: {recipe.servings} portions.</p>
             </div>
 
-
-            <div className="details-buttons-wrapper"> 
-            <Link to={`/catalog/${recipe._id}/edit`} className="edit-btn">Edit Recipe</Link>
-            <Link to={`/catalog/${recipe._id}/delete`} className="delete-btn">Delete Recipe</Link>
-            </div>
+            {isOwner && (
+                <div className="details-buttons-wrapper">
+                    <Link to={`/catalog/${recipe._id}/edit`} className="edit-btn">Edit Recipe</Link>
+                    <button className="delete-btn" onClick={deleteHandler}>Delete Recipe</button>
+                </div>
+            )}
         </section>
     )
 }

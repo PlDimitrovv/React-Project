@@ -9,6 +9,8 @@
     border-radius: 30px;
     height: 400px;
     width: 700px;
+    overflow: hidden;
+    object-fit: cover;
 }
 
 .details-title {
@@ -53,8 +55,7 @@
     margin-top: 40px;
 }
 
-.edit-btn,
-.delete-btn {
+.edit-btn {
     background-color: #f89e2f;
     border-radius: 30px;
     padding: 10px 50px 15px 50px;
@@ -65,8 +66,17 @@
 }
 
 .delete-btn{
-    background-color: #fc6d56
+    background-color: #fc6d56;
+    border-radius: 30px;
+    padding: 15px 50px 15px 50px;
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+    text-decoration: none;
+    border: none;
 }
+
+
 
 .delete-btn:hover{
     background-color: #fc5656;

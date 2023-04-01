@@ -1,14 +1,14 @@
-import { useContext, useState } from "react"
-import { useNavigate } from "react-router-dom"
 import * as recipeService from "../../services/recipeService"
 
-import { AuthContext } from "../../context/AuthContext"
+import { useContext, useEffect, useState } from "react"
+import { useNavigate, useParams } from "react-router-dom"
+import "./EditRecipe.css"
 
-import "./AddRecipe.css"
+import { AuthContext } from '../../context/AuthContext';
 
-export const AddRecipe = () => {
+export const EditRecipe = () => {
 
-    const [recipe, setRecipeData] = useState({
+    const [recipe, setRecipe] = useState({
         name: "",
         img: "",
         desc: "",
@@ -30,31 +30,40 @@ export const AddRecipe = () => {
     })
 
     const navigate = useNavigate()
+
+    const { recipeId } = useParams()
+
     const { user } = useContext(AuthContext)
 
 
 
-    const createRecipeHandler = async (e) => {
-        e.preventDefault()
+    useEffect(() => {
+        recipeService.getOneRecipe(recipeId)
+            .then(result => {
+                setRecipe(result)
+            })
+    }, [recipeId])
 
+
+    const editRecipeHandler = async (e) => {
+        e.preventDefault()
         if (Object.values(recipe).some(x => x === "") || Object.values(errors).some(x => x === true)) {
             setErrors(state => ({ ...state, "errorFromServer": 'All fields must be filled!' }))
             return
         }
-
-
-        const response = await recipeService.create(recipe, user.accessToken)
-
-        if (response?.message) {
-            return setErrors(state => ({ ...state, "errorFromServer": 'All Fields Must be filled!' }))
-        }
+        const response = await recipeService.edit(recipe, user.accessToken)
 
         if (response?._id) {
             navigate(`/catalog`)
         }
 
+        if (response?.message) {
+            return setErrors(state => ({ ...state, "errorFromServer": 'All Fields Must be filled!' }))
+        }
 
     }
+
+
 
     const onErrorHandler = (e) => {
         if (e.target.name === 'name' && (e.target.value.length < 3 || e.target.value.length > 40)) {
@@ -77,19 +86,15 @@ export const AddRecipe = () => {
         }
     }
 
-
-
     const addRecipeData = (e) => {
-        setRecipeData({ ...recipe, [e.target.name]: e.target.value })
+        setRecipe({ ...recipe, [e.target.name]: e.target.value });
         setErrors(state => ({ ...state, [e.target.name]: false, "errorFromServer": false }));
     }
-
-
 
     return (
         <div className="create-wrapper">
             <h1 className="create-title">Add Your Recipe</h1>
-            <form className="form" onSubmit={createRecipeHandler}>
+            <form className="form" onSubmit={editRecipeHandler}>
                 {errors.errorFromServer && (
                     < h2 className="error"> {errors.errorFromServer}</h2>
                 )}
@@ -129,7 +134,6 @@ export const AddRecipe = () => {
                     </p>
                 )}
 
-
                 <label htmlFor="" className="form-label">Recipe Description</label>
                 <textarea
                     type="text"
@@ -147,6 +151,7 @@ export const AddRecipe = () => {
                     </p>
                 )}
 
+
                 <label htmlFor="" className="form-label">Instructions</label>
                 <textarea
                     type="text"
@@ -157,6 +162,7 @@ export const AddRecipe = () => {
                     onChange={addRecipeData}
                     onBlur={onErrorHandler}
                 />
+
                 {errors.instructions && (
                     <p className='error-message'>
                         Instructions must be between 2 and 200 characters!
@@ -173,12 +179,12 @@ export const AddRecipe = () => {
                     onChange={addRecipeData}
                     onBlur={onErrorHandler}
                 />
+
                 {errors.ingredients && (
                     <p className='error-message'>
                         Ingredients must be between 3 and 200 characters!
                     </p>
                 )}
-
 
                 <div className="servings-prepTime-wrapper">
                     <label htmlFor="" className="form-label">Servings</label>
@@ -189,7 +195,6 @@ export const AddRecipe = () => {
                         value={recipe.servings}
                         onChange={addRecipeData}
                         onBlur={onErrorHandler}
-
                     />
 
                     <label htmlFor="" className="form-label">Prep Time</label>
@@ -201,7 +206,6 @@ export const AddRecipe = () => {
                         onChange={addRecipeData}
                         onBlur={onErrorHandler}
                     />
-
 
                 </div>
                 <div className="add-recipe-error-wrapper">
@@ -216,6 +220,7 @@ export const AddRecipe = () => {
                         </p>
                     )}
                 </div>
+
                 <input type="submit" className="create-sbt" value="Submit" />
             </form>
         </div>

@@ -12,6 +12,8 @@ import { useLocalStorage } from './hooks/authLocalStorage';
 import { RecipeDetails } from './components/RecipeDetails/RecipeDetails';
 import { EditRecipe } from './components/EditRecipe/EditRecipe';
 import { UserProfile } from './components/UserProfile/UserProfile';
+import { NotFound404 } from './components/404/NotFound404';
+import { Guest } from './Guards/Guest';
 
 
 function App() {
@@ -30,12 +32,17 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/catalog' element={<Catalog />} />
-          <Route path='/create' element={<AddRecipe />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
-          <Route path='/profile' element={<UserProfile />} />
           <Route path='/catalog/details/:recipeId' element={<RecipeDetails />} />
-          <Route path='/catalog/:recipeId/edit' element={<EditRecipe />} />
+
+          <Route element={<Guest />}>
+            <Route path='/create' element={<AddRecipe />} />
+            <Route path='/profile' element={<UserProfile />} />
+            <Route path='/catalog/:recipeId/edit' element={<EditRecipe />} />
+          </Route>
+
+          <Route path='*' element={<NotFound404 />} />
         </Routes>
       </AuthContext.Provider>
       <Footer />

@@ -65,7 +65,7 @@
     text-decoration: none;
 }
 
-.delete-btn{
+.delete-btn {
     background-color: #fc6d56;
     border-radius: 30px;
     padding: 15px 50px 15px 50px;
@@ -78,14 +78,136 @@
 
 
 
-.delete-btn:hover{
+.delete-btn:hover {
     background-color: #fc5656;
 }
 
-.edit-btn:hover{
+.edit-btn:hover {
     margin-top: -2px;
     background-color: white;
     color: #fc6d56;
     border-radius: 30px;
     border: 1px solid #fc6d56;
+}
+
+
+
+/* Comments */
+
+.details-comments {
+    display: table-cell;
+}
+
+.create-comment {
+    margin-top: 80px;
+    position: relative;
+    text-align: center;
+    width: 700px;
+    height: auto;
+    border-radius: 20px;
+    padding: 40px;
+    box-sizing: border-box;
+    background: #fc6d56;
+
+}
+
+.comment-label {
+    color: white;
+    font-size: 28px;
+    text-align: center;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.comment-username-label {
+    margin-top: 24px;
+    margin-left: 16px;
+    padding: 5px;
+    border-radius: 6px;
+    border: none;
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: left;
+
+}
+
+.comment-text-area {
+    margin-left: 16px;
+    resize: none;
+    width: 555px;
+    height: 100px;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    padding: 15px;
+    border-radius: 12px;
+    border: none;
+    align-items: center;
+    font-family: Helvetica, sans-serif;
+}
+
+.comment-text-area:focus {
+    border: none;
+    overflow: auto;
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+
+.comment-btn {
+    background-color: white;
+    border-radius: 30px;
+    border: none;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 20px;
+    color: #fc6d56;
+    cursor: pointer;
+    margin: 20px;
+}
+
+.comment-btn:hover {
+    background-color: #fc6d56;
+    border: 1px solid white;
+    color: white;
+    margin: 19px;
+}
+
+.comment {
+    list-style-type: none;
+}
+
+.comment-paragraph {
+    background-color: #fc5656;
+    color: white;
+    font-size: 18px;
+    width: 300px;
+    border-radius: 30px;
+    padding: 10px 20px 10px 20px;
+    margin-left: -20px;
+}
+
+.comment-username {
+    font-weight: 700;
+}
+
+.details-comments {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    margin-top: 90px;
+    text-align: center;
+}
+
+
+.comments-title {
+    color: #f89e2f;
+    font-size: 30px;
+    margin-bottom: -10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
 }

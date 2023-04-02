@@ -3,19 +3,34 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 import * as recipeService from '../../services/recipeService'
+import * as commentService from '../../services/commentService'
 import { AuthContext } from "../../context/AuthContext";
 
 export const RecipeDetails = () => {
+    const { user } = useContext(AuthContext)
     const { recipeId } = useParams()
 
     const [recipe, setRecipe] = useState({})
+    const [comment, setComment] = useState('');
+    const [username, setUsername] = useState(user.username);
+
 
     useEffect(() => {
-       
         recipeService.getOneRecipe(recipeId)
             .then(result => {
                 setRecipe(result)
             })
+    }, [recipeId])
+
+    useEffect(() => {
+
+        //TODO COMMENT RENDERING PROBLEM
+
+        commentService.getAllComments(recipeId)
+            .then(commentsResult => {
+                setRecipe(state => ({ ...state, comments: commentsResult }))
+            })
+
     }, [recipeId])
 
     const navigate = useNavigate()
@@ -27,9 +42,26 @@ export const RecipeDetails = () => {
     }
 
 
-    const { user } = useContext(AuthContext)
     const isOwner = user?._id === recipe?._ownerId
-  
+    const isAuthenticated = user?._id ? true : false
+
+
+    const onCommentSubmit = async (e) => {
+        e.preventDefault()
+
+        const username = user.username
+        const result = await commentService.addComment(user.accessToken, {
+            recipeId,
+            username,
+            comment,
+        })
+
+        console.log(result);
+
+    }
+
+
+
     return (
         <section className="details-wrapper">
             <img className="details-img" src={recipe.img} alt="" />
@@ -52,6 +84,30 @@ export const RecipeDetails = () => {
                     <button className="delete-btn" onClick={deleteHandler}>Delete Recipe</button>
                 </div>
             )}
+            {isAuthenticated && (
+                <>
+                    <div className="details-comments">
+                        <h2 className="comments-title">Comments:</h2>
+                        <ul className="comments-wrapper">
+                            {recipe.comments && Object.values(recipe.comments).filter(x => x.recipeId === recipeId).map(x => (
+                                <li key={x._id} className="comment">
+                                    <p className="comment-paragraph"><span className="comment-username">{x.username}</span>: {x.comment}</p>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    <article className="create-comment">
+                        <label className="comment-label">Add new comment:</label>
+                        <form className="form" onSubmit={onCommentSubmit}>
+                            <label className="comment-username-label">{username}:</label>
+                            <textarea className="comment-text-area" name="comment" placeholder="Comment......" value={comment} onChange={(e) => setComment(e.target.value)} ></textarea>
+                            <input className="comment-btn" type="submit" value="Add Comment" />
+                        </form>
+                    </article>
+                </>
+            )}
         </section>
+
     )
 }

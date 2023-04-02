@@ -20,18 +20,11 @@ export const RecipeDetails = () => {
             .then(result => {
                 setRecipe(result)
             })
-    }, [recipeId])
 
-    useEffect(() => {
-
-        //TODO COMMENT RENDERING PROBLEM
-
-        commentService.getAllComments(recipeId)
-            .then(commentsResult => {
-                setRecipe(state => ({ ...state, comments: commentsResult }))
-            })
+        loadAllComments(recipeId)
 
     }, [recipeId])
+
 
     const navigate = useNavigate()
 
@@ -56,10 +49,17 @@ export const RecipeDetails = () => {
             comment,
         })
 
-        console.log(result);
+
+        loadAllComments(recipeId)
 
     }
-
+    //Loading Comments 
+    function loadAllComments(recipeId) {
+        commentService.getAllComments(recipeId)
+            .then(commentsResult => {
+                setRecipe(state => ({ ...state, comments: commentsResult }))
+            })
+    }
 
 
     return (
@@ -89,7 +89,7 @@ export const RecipeDetails = () => {
                     <div className="details-comments">
                         <h2 className="comments-title">Comments:</h2>
                         <ul className="comments-wrapper">
-                            {recipe.comments && Object.values(recipe.comments).filter(x => x.recipeId === recipeId).map(x => (
+                            {recipe.comments && Object.values(recipe.comments).map(x => (
                                 <li key={x._id} className="comment">
                                     <p className="comment-paragraph"><span className="comment-username">{x.username}</span>: {x.comment}</p>
                                 </li>

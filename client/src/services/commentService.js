@@ -5,13 +5,11 @@ export const getAllComments = async (recipeId) => {
  
     const response = await fetch(`${baseUrl}?where=${query}`)
     const result = await response.json();
-    console.log(result);
     return result
 
 };
 
 export const addComment = async (accessToken, data) => {
-    console.log(accessToken);
     try {
         const response = await fetch(`${baseUrl}`, {
             method: 'POST',

@@ -49,13 +49,17 @@ export const RecipeDetails = () => {
             comment,
         })
 
+        setComment("")
 
         loadAllComments(recipeId)
+        
+        return result
 
     }
+
     //Loading Comments 
-    function loadAllComments(recipeId) {
-        commentService.getAllComments(recipeId)
+   function loadAllComments(recipeId) {
+      commentService.getAllComments(recipeId)
             .then(commentsResult => {
                 setRecipe(state => ({ ...state, comments: commentsResult }))
             })

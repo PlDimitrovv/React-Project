@@ -17,10 +17,10 @@ export const RecipeDetails = () => {
 
     useEffect(() => {
         recipeService.getOneRecipe(recipeId)
-            .then(result => {
-                setRecipe(result)
-            })
-
+        .then(result => {
+            setRecipe(result)
+        })
+        
         loadAllComments(recipeId)
 
     }, [recipeId])
@@ -58,7 +58,7 @@ export const RecipeDetails = () => {
     }
 
     //Loading Comments 
-   function loadAllComments(recipeId) {
+ const loadAllComments = (recipeId) => {
       commentService.getAllComments(recipeId)
             .then(commentsResult => {
                 setRecipe(state => ({ ...state, comments: commentsResult }))

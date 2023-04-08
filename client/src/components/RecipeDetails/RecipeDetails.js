@@ -11,7 +11,7 @@ export const RecipeDetails = () => {
     const { recipeId } = useParams()
 
     const [recipe, setRecipe] = useState({})
-    const [comment, setComment] = useState('');
+    const [comment, setComment] = useState([]);
     const [username, setUsername] = useState(user.username);
 
 
@@ -19,10 +19,8 @@ export const RecipeDetails = () => {
         recipeService.getOneRecipe(recipeId)
         .then(result => {
             setRecipe(result)
+            loadAllComments(result._id);
         })
-        
-        loadAllComments(recipeId)
-
     }, [recipeId])
 
 
@@ -41,28 +39,29 @@ export const RecipeDetails = () => {
 
     const onCommentSubmit = async (e) => {
         e.preventDefault()
-
+        
         const username = user.username
         const result = await commentService.addComment(user.accessToken, {
             recipeId,
             username,
             comment,
+        }).then( () => {
+            setComment("")
+            loadAllComments(recipeId);
         })
-
-        setComment("")
-
-        loadAllComments(recipeId)
-        
-        return result
+        return result;
 
     }
 
     //Loading Comments 
- const loadAllComments = (recipeId) => {
-      commentService.getAllComments(recipeId)
+    const loadAllComments = (recipeId) => {
+        if(user.accessToken){
+            commentService.getAllComments(recipeId)
             .then(commentsResult => {
+                console.log(commentsResult)
                 setRecipe(state => ({ ...state, comments: commentsResult }))
             })
+        }
     }
 
 

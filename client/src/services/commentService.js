@@ -2,7 +2,7 @@ const baseUrl = 'http://localhost:3030/data/comments';
 
 export const getAllComments = async (recipeId) => {
     const query = encodeURIComponent(`recipeId="${recipeId}"`);
- 
+    
     const response = await fetch(`${baseUrl}?where=${query}`)
     const result = await response.json();
     return result
